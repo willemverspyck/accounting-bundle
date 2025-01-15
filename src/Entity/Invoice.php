@@ -190,10 +190,16 @@ class Invoice implements Stringable, TimestampInterface
 
     public function __toString(): string
     {
-        if (null === $this->getName()) {
-            return $this->getId();
+        $content = $this->getName();
+
+        if (null === $content) {
+            $content = sprintf('%d', $this->getId());
         }
 
-        return $this->getName();
+        if (null === $this->getCode()) {
+            return $content;
+        }
+
+        return sprintf('%s (%s)', $content, $this->getCode());
     }
 }
