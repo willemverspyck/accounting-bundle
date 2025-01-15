@@ -25,7 +25,7 @@ class Job implements Stringable, TimestampInterface
     #[Doctrine\JoinColumn(name: 'invoice_id', referencedColumnName: 'id', nullable: false)]
     private Invoice $invoice;
 
-    #[Doctrine\ManyToOne(targetEntity: Service::class, inversedBy: 'services')]
+    #[Doctrine\ManyToOne(targetEntity: Service::class)]
     #[Doctrine\JoinColumn(name: 'service_id', referencedColumnName: 'id', nullable: false)]
     private Service $service;
 

@@ -23,7 +23,7 @@ class Invoice implements Stringable, TimestampInterface
     #[Doctrine\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[Doctrine\ManyToOne(targetEntity: Customer::class, inversedBy: 'invoices')]
+    #[Doctrine\ManyToOne(targetEntity: Customer::class)]
     #[Doctrine\JoinColumn(name: 'customer_id', referencedColumnName: 'id', nullable: false)]
     private Customer $customer;
 
@@ -188,19 +188,10 @@ class Invoice implements Stringable, TimestampInterface
         $this->jobs->removeElement($job);
     }
 
-    public function getNumber(): ?string
-    {
-        if (null === $this->getTimestamp() || null === $this->getCode()) {
-            return null;
-        }
-
-        return sprintf('%d%06d', $this->getTimestamp()->format('y'), $this->getCode());
-    }
-
     public function __toString(): string
     {
         if (null === $this->getName()) {
-            return '';
+            return $this->getId();
         }
 
         return $this->getName();
