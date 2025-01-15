@@ -33,6 +33,14 @@ class Customer implements Stringable, TimestampInterface
     #[Validator\NotBlank]
     private string $contact;
 
+    #[Doctrine\Column(name: 'email', type: Types::STRING, length: 128, nullable: true)]
+    #[Validator\NotBlank]
+    private ?string $email = null;
+
+    #[Doctrine\Column(name: 'phone', type: Types::STRING, length: 16, nullable: true)]
+    #[Validator\NotBlank]
+    private ?string $phone = null;
+
     #[Doctrine\Column(name: 'address', type: Types::STRING, length: 128)]
     #[Validator\NotBlank]
     private string $address;
@@ -87,6 +95,30 @@ class Customer implements Stringable, TimestampInterface
     public function setContact(string $contact): self
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
