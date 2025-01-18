@@ -51,7 +51,7 @@ class Invoice implements Stringable, TimestampInterface
     /**
      * @var Collection<int, Job>
      */
-    #[Doctrine\OneToMany(mappedBy: 'invoice', targetEntity: Job::class, cascade: ['persist'], orphanRemoval: true)]
+    #[Doctrine\OneToMany(targetEntity: Job::class, mappedBy: 'invoice', cascade: ['persist'], orphanRemoval: true)]
     private Collection $jobs;
 
     public function __construct()
@@ -189,16 +189,12 @@ class Invoice implements Stringable, TimestampInterface
 
     public function __toString(): string
     {
-        $content = $this->getName();
-
-        if (null === $content) {
-            $content = sprintf('%d', $this->getId());
-        }
+        $customer = $this->getCustomer();
 
         if (null === $this->getCode()) {
-            return $content;
+            return sprintf('%s', $customer);
         }
 
-        return sprintf('%s (%s)', $content, $this->getCode());
+        return sprintf('%s (%s)', $customer, $this->getCode());
     }
 }

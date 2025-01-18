@@ -173,12 +173,6 @@ class Customer implements Stringable, TimestampInterface
 
     public function __toString(): string
     {
-        $content = $this->getName();
-
-        if (null !== $this->getCode()) {
-            $content = sprintf('%s (%s)', $content, $this->getCode());
-        }
-
-        return $content;
+        return $this->getName();
     }
 }
