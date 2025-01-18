@@ -28,7 +28,6 @@ class Invoice implements Stringable, TimestampInterface
     private Customer $customer;
 
     #[Doctrine\Column(name: 'name', type: Types::STRING, length: 192, nullable: true)]
-    #[Validator\NotBlank]
     private ?string $name = null;
 
     #[Doctrine\Column(name: 'code', type: Types::STRING, length: 8, unique: true, nullable: true)]
