@@ -14,29 +14,19 @@ readonly class InvoiceService
     {
     }
 
-    public function patchInvoiceCode(Invoice $invoice): void
-    {
-        $timestamp = new DateTimeImmutable();
-
-        $code = $this->getInvoiceCode($invoice, $timestamp);
-
-        $this->invoiceRepository->patchInvoice(invoice: $invoice, fields: ['code', 'timestamp'], code: $code, timestamp: $timestamp);
-    }
-
-    private function getInvoiceCode(Invoice $invoice, DateTimeImmutable $timestamp): string
+    public function patchInvoice(Invoice $invoice): void
     {
         if (null !== $invoice->getCode()) {
-            return $invoice->getCode();
+            return;
         }
 
-        $code = $this->invoiceRepository->getInvoiceMaxCode();
+        $count = $this->invoiceRepository->getInvoicesCountWithCodeIsNotNull();
+        $count = (int) $count + 1;
 
-        if (null === $code) {
-            $code = 1;
-        } else {
-            $code = (int) $code + 1;
-        }
+        $timestamp = new DateTimeImmutable();
 
-        return sprintf('%s%06s', $timestamp->format('y'), $code);
+        $code = sprintf('%s%06s', $timestamp->format('y'), $count);
+
+        $this->invoiceRepository->patchInvoice(invoice: $invoice, fields: ['code', 'timestamp'], code: $code, timestamp: $timestamp);
     }
 }

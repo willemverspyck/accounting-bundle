@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as Doctrine;
 use Stringable;
-use Symfony\Component\Validator\Constraints as Validator;
 
 #[Doctrine\Entity]
 #[Doctrine\Table(name: 'accounting_invoice')]

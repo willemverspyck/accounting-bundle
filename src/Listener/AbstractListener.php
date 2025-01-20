@@ -9,6 +9,9 @@ use Spyck\AccountingBundle\Entity\Invoice;
 
 abstract class AbstractListener
 {
+    /**
+     * @throws Exception
+     */
     protected function patchInvoice(Invoice $invoice): void
     {
         $amount = 0.0;
@@ -20,9 +23,12 @@ abstract class AbstractListener
             $job->setTax($service->hasTax());
             $job->setTaxRate($service->getTaxRate());
 
-            $amount += round($job->getQuantity() * $job->getAmount(), 2);
-            $amountTax += $job->hasTax() ? round($job->getQuantity() * $job->getAmount() * $job->getTaxRate(), 2) : 0;
+            $amount += $job->getQuantity() * $job->getAmount();
+            $amountTax += $job->hasTax() ? $job->getQuantity() * $job->getAmount() * $job->getTaxRate() : 0;
         }
+
+        $amount = round($amount, 2);
+        $amountTax = round($amountTax, 2);
 
         if (null !== $invoice->getCode()) {
             if ($amount !== $invoice->getAmount() || $amountTax !== $invoice->getAmountTax()) {

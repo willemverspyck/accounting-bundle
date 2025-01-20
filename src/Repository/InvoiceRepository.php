@@ -15,13 +15,15 @@ class InvoiceRepository extends AbstractRepository
         parent::__construct($managerRegistry, Invoice::class);
     }
 
-    public function getInvoiceMaxCode(): ?string
+    public function getInvoicesCountWithCodeIsNotNull(): array
     {
         return $this->createQueryBuilder('invoice')
-            ->select('MAX(SUBSTRING(invoice.code, 3))')
+            ->select('COUNT(invoice)')
+            ->innerJoin('invoice.customer', 'customer')
+            ->innerJoin('invoice.job', 'job')
             ->where('invoice.code IS NOT NULL')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getResult();
     }
 
     public function patchInvoice(Invoice $invoice, array $fields, ?string $code = null, ?DateTimeImmutable $timestamp = null): void
