@@ -23,8 +23,6 @@ final class CodeEventSubscriber implements EventSubscriberInterface
 
     public function onCodeEvent(CodeEvent $event): void
     {
-        dump($event);
-
         $this->invoiceService->patchInvoice($event->getInvoice());
     }
 }
