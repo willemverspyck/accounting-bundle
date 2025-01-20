@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spyck\VisualizationBundle\Event\Subscriber;
+namespace Spyck\AccountingBundle\Event\Subscriber;
 
 use Spyck\AccountingBundle\Event\CodeEvent;
 use Spyck\AccountingBundle\Service\InvoiceService;
