@@ -15,15 +15,13 @@ class InvoiceRepository extends AbstractRepository
         parent::__construct($managerRegistry, Invoice::class);
     }
 
-    public function getInvoicesCountWithCodeIsNotNull(): array
+    public function getInvoicesCountWithCodeIsNotNull(): int
     {
         return $this->createQueryBuilder('invoice')
             ->select('COUNT(invoice)')
-            ->innerJoin('invoice.customer', 'customer')
-            ->innerJoin('invoice.job', 'job')
             ->where('invoice.code IS NOT NULL')
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
     }
 
     public function patchInvoice(Invoice $invoice, array $fields, ?string $code = null, ?DateTimeImmutable $timestamp = null): void
