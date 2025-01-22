@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as Doctrine;
 use Stringable;
+use Symfony\Component\Validator\Constraints as Validator;
 
 #[Doctrine\Entity]
 #[Doctrine\Table(name: 'accounting_invoice')]
@@ -24,6 +25,7 @@ class Invoice implements Stringable, TimestampInterface
 
     #[Doctrine\ManyToOne(targetEntity: Customer::class)]
     #[Doctrine\JoinColumn(name: 'customer_id', referencedColumnName: 'id', nullable: false)]
+    #[Validator\NotNull]
     private Customer $customer;
 
     #[Doctrine\Column(name: 'name', type: Types::STRING, length: 192, nullable: true)]
@@ -51,6 +53,8 @@ class Invoice implements Stringable, TimestampInterface
      * @var Collection<int, Job>
      */
     #[Doctrine\OneToMany(targetEntity: Job::class, mappedBy: 'invoice', cascade: ['persist'], orphanRemoval: true)]
+    #[Validator\Count(min: 1)]
+    #[Validator\Valid]
     private Collection $jobs;
 
     public function __construct()
