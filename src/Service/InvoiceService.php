@@ -20,8 +20,7 @@ readonly class InvoiceService
             return;
         }
 
-        $count = $this->invoiceRepository->getInvoicesCountWithCodeIsNotNull();
-        $count = (int) $count + 1;
+        $count = $this->invoiceRepository->getInvoicesCountWithCodeIsNotNull() + 1;
 
         $timestamp = new DateTimeImmutable();
 
